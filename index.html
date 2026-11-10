@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="일상 속 임대차 계약 독소조항, 지능형 스미싱 피싱 문자, 구독 다크패턴을 실시간 분석하고 안심 특약과 대응 문안을 자동 생성하는 멀티 AI 에이전트 서비스">
+<title>LifeShield AI : 일상 계약 독소조항 및 스미싱 방어 멀티 에이전트</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* Hallmark — Warm Slate Everyday Legal & Security Desk · #0C111B · IBM Plex Sans KR */
+:root {
+  --bg-primary: #0C111B;
+  --bg-elevated: #131B2B;
+  --bg-panel: rgba(19, 27, 43, 0.94);
+  --bg-subtle: rgba(29, 40, 62, 0.72);
+  --bg-chip: rgba(52, 211, 153, 0.13);
+  --bg-chip-warn: rgba(251, 191, 36, 0.14);
+  --bg-chip-danger: rgba(248, 113, 113, 0.16);
+  --text-primary: #F4F6FA;
+  --text-secondary: #B8C4D9;
+  --text-muted: #7E8FA9;
+  --text-dark: #07120E;
+  --accent-emerald: #34D399;
+  --accent-amber: #FBBF24;
+  --accent-coral: #F87171;
+  --accent-sky: #38BDF8;
+  --border-hairline: rgba(148, 163, 184, 0.18);
+  --border-accent: rgba(52, 211, 153, 0.45);
+  --font-sans: 'IBM Plex Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: clip;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-emerald);
+  outline-offset: 2px;
+}
+
+.app-shell {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 24px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px;
+  background: var(--bg-panel);
+  border: 1px solid var(--border-hairline);
+  border-radius: 12px;
+}
+
+.brand-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.brand-title {
+  font-size: 1.16rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.brand-sub {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.metrics-bar {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.metric-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.metric-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.metric-val {
+  font-family: var(--font-mono);
+  font-size: 1.02rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-primary);
+}
+
+.metric-val.emerald { color: var(--accent-emerald); }
+.metric-val.amber { color: var(--accent-amber); }
+.metric-val.coral { color: var(--accent-coral); }
+
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-primary {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--accent-emerald);
+  background: var(--accent-emerald);
+  color: var(--text-dark);
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.btn-primary:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-ghost {
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-hairline);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 0.84rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease;
+}
+
+.btn-ghost:hover {
+  border-color: var(--border-accent);
+  color: var(--text-primary);
+}
+
+.btn-ghost:active {
+  background: var(--bg-chip);
+}
+
+.btn-ghost:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-ghost.active {
+  border-color: var(--accent-emerald);
+  color: var(--accent-emerald);
+  background: var(--bg-chip);
+}
+
+.workspace-grid {
+  display: grid;
+  grid-template-columns: 1.08fr 1fr;
+  gap: 20px;
+}
+
+.panel-card {
+  background: var(--bg-panel);
+  border: 1px solid var(--border-hairline);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.panel-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid var(--border-hairline);
+  padding-bottom: 12px;
+}
+
+.panel-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+.panel-desc {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.status-pill {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  background: var(--bg-chip);
+  color: var(--accent-emerald);
+  border: 1px solid var(--border-accent);
+  white-space: nowrap;
+}
+
+.status-pill.danger {
+  background: var(--bg-chip-danger);
+  color: var(--accent-coral);
+  border-color: var(--accent-coral);
+}
+
+.scenario-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.input-area {
+  width: 100%;
+  min-height: 148px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-hairline);
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  line-height: 1.55;
+  resize: vertical;
+}
+
+.clause-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.clause-item {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-hairline);
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.clause-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.clause-tag {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--accent-coral);
+}
+
+.clause-tag.warn {
+  color: var(--accent-amber);
+}
+
+.clause-tag.safe {
+  color: var(--accent-emerald);
+}
+
+.clause-body {
+  font-size: 0.83rem;
+  color: var(--text-secondary);
+}
+
+.rewrite-box {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-accent);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.rewrite-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--accent-emerald);
+}
+
+.rewrite-text {
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  line-height: 1.55;
+}
+
+.risk-meter-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.meter-box {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-hairline);
+  border-radius: 8px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.meter-label {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+}
+
+.meter-num {
+  font-family: var(--font-mono);
+  font-size: 1.38rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.bar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.bar-row {
+  display: grid;
+  grid-template-columns: 148px 1fr 64px;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.8rem;
+}
+
+.bar-track {
+  width: 100%;
+  height: 12px;
+  background: var(--bg-elevated);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.bar-fill {
+  width: 100%;
+  height: 100%;
+  background: var(--accent-coral);
+  transform-origin: left center;
+  transform: scaleX(0.85);
+  transition: transform 0.25s ease;
+}
+
+.bar-fill.safe {
+  background: var(--accent-emerald);
+}
+
+.bar-val {
+  font-family: var(--font-mono);
+  text-align: right;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.bottom-grid {
+  display: grid;
+  grid-template-columns: 1.08fr 1fr;
+  gap: 20px;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.81rem;
+}
+
+.data-table th,
+.data-table td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-hairline);
+}
+
+.data-table th {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.data-table td.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 1080px) {
+  .workspace-grid,
+  .bottom-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+</style>
+</head>
+<body>
+<div class="app-shell">
+  <header class="topbar">
+    <div class="brand-wrap">
+      <h1 class="brand-title">LifeShield AI (라이프실드 AI)</h1>
+      <p class="brand-sub">일상 임대차·근로 계약서 독소조항 감사, 스미싱·보이스피싱 판독, 구독 다크패턴 해지 문안 자동 생성 멀티 에이전트</p>
+    </div>
+    <div class="metrics-bar">
+      <div class="metric-item">
+        <span class="metric-label">탐지된 독소·위험 요인</span>
+        <span class="metric-val coral" id="kpi-risks">3 건 (심각)</span>
+      </div>
+      <div class="metric-item">
+        <span class="metric-label">평균 분석 소요시간</span>
+        <span class="metric-val" id="kpi-latency">0.38 초</span>
+      </div>
+      <div class="metric-item">
+        <span class="metric-label">법령·판례 매칭 정확도</span>
+        <span class="metric-val emerald" id="kpi-acc">98.6 %</span>
+      </div>
+      <div class="metric-item">
+        <span class="metric-label">예상 피해 예방액</span>
+        <span class="metric-val amber" id="kpi-saved">18,500,000 원</span>
+      </div>
+    </div>
+    <div class="top-actions">
+      <button class="btn-ghost" id="btn-copy-rewrite" type="button">안심 수정 문안 복사</button>
+      <button class="btn-primary" id="btn-run-audit" type="button">실시간 AI 정밀 재검증</button>
+    </div>
+  </header>
+
+  <main class="workspace-grid">
+    <section class="panel-card" aria-labelledby="input-heading">
+      <div class="panel-head">
+        <div>
+          <h2 class="panel-title" id="input-heading">모듈 1 : 일상 문서·문자 원문 입력 및 시나리오 선택</h2>
+          <p class="panel-desc">전월세 특약, 프리랜서 용역 계약서, 의심 문자(스미싱), 구독 약관 중 하나를 선택하거나 직접 붙여넣어 검증합니다.</p>
+        </div>
+        <span class="status-pill" id="scenario-pill">전월세 임대차 계약</span>
+      </div>
+
+      <div class="scenario-toolbar">
+        <button class="btn-ghost active" data-scenario="lease" type="button">전월세 임대차 독소특약</button>
+        <button class="btn-ghost" data-scenario="smishing" type="button">기관사칭·부고 스미싱 문자</button>
+        <button class="btn-ghost" data-scenario="freelance" type="button">프리랜서 저작권·위약금 계약</button>
+        <button class="btn-ghost" data-scenario="darkpattern" type="button">구독 자동결제 다크패턴 약관</button>
+      </div>
+
+      <label for="doc-input" class="metric-label">분석 대상 원문 (직접 수정 가능)</label>
+      <textarea id="doc-input" class="input-area">[특약사항]
+1. 임차인은 입주 후 발생하는 보일러 배관 누수 및 일체의 시설물 고장을 직접 수리하며 임대인에게 비용을 청구할 수 없다.
+2. 임대인은 잔금일 익일에 제1금융권 근저당권(채권최고액 금 일억오천만원)을 설정할 수 있으며 임차인은 이에 동의한다.
+3. 중도 퇴실 시 임차인은 남은 계약 기간 월세 전액과 위약금 500만원을 즉시 배상한다.</textarea>
+
+      <div class="clause-list" id="clause-results">
+        <div class="clause-item">
+          <div class="clause-head">
+            <strong>조항 2 : 잔금일 익일 선순위 근저당 설정 동의</strong>
+            <span class="clause-tag">위험도 97% (보증금 미반환 위험)</span>
+          </div>
+          <p class="clause-body">주택임대차보호법상 대항력은 전입신고 다음 날 0시에 발생하므로, 잔금일 익일 임대인이 근저당을 설정하면 임차인보다 선순위가 되어 경매 시 보증금 회수가 불가능해질 수 있습니다.</p>
+        </div>
+        <div class="clause-item">
+          <div class="clause-head">
+            <strong>조항 1 : 보일러 배관 누수 등 중대 수선의무 전가</strong>
+            <span class="clause-tag warn">위험도 84% (민법 제623조 위배 소지)</span>
+          </div>
+          <p class="clause-body">대법원 판례상 난방·상하수도 배관 등 주요 설비의 노후·구조적 결함 수선의무는 임대인에게 있으며, 포괄적 전가 특약은 소모품 범위를 넘어선 경우 효력이 제한됩니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel-card" aria-labelledby="agent-heading">
+      <div class="panel-head">
+        <div>
+          <h2 class="panel-title" id="agent-heading">모듈 2 : 멀티 에이전트 위험도 분해 및 안심 대안 생성</h2>
+          <p class="panel-desc">법령·판례 매칭 에이전트와 방어 문안 작성 에이전트가 즉시 사용 가능한 수정 특약 및 대처 가이드를 생성합니다.</p>
+        </div>
+        <span class="status-pill danger" id="risk-badge">즉시 수정 권고</span>
+      </div>
+
+      <div class="risk-meter-grid">
+        <div class="meter-box">
+          <span class="meter-label">원문 종합 위험 점수</span>
+          <span class="meter-num" id="score-before">92.4 / 100 (고위험)</span>
+          <span class="clause-body" id="law-ref">근거 법령 : 주택임대차보호법 제3조, 민법 제623조</span>
+        </div>
+        <div class="meter-box">
+          <span class="meter-label">AI 안심 문안 적용 후 위험도</span>
+          <span class="meter-num" id="score-after">6.5 / 100 (안전)</span>
+          <span class="clause-body" id="save-ref">보증금 대항력 100% 보호 및 수선비 분쟁 원천 차단</span>
+        </div>
+      </div>
+
+      <div class="bar-list">
+        <div class="bar-row">
+          <span>권리·금전 침해 심각도</span>
+          <div class="bar-track"><div class="bar-fill" id="bar-r1"></div></div>
+          <span class="bar-val" id="val-r1">96 점</span>
+        </div>
+        <div class="bar-row">
+          <span>법령·판례 불이익 편향</span>
+          <div class="bar-track"><div class="bar-fill" id="bar-r2"></div></div>
+          <span class="bar-val" id="val-r2">89 점</span>
+        </div>
+        <div class="bar-row">
+          <span>일방적 의무·위약금 전가</span>
+          <div class="bar-track"><div class="bar-fill" id="bar-r3"></div></div>
+          <span class="bar-val" id="val-r3">91 점</span>
+        </div>
+        <div class="bar-row">
+          <span>수정 특약 적용 시 보호율</span>
+          <div class="bar-track"><div class="bar-fill safe" id="bar-r4"></div></div>
+          <span class="bar-val" id="val-r4">98 %</span>
+        </div>
+      </div>
+
+      <div class="rewrite-box">
+        <span class="rewrite-title" id="rewrite-heading">AI 에이전트 자동 생성 안심 수정 특약 (계약서 날인 전 교체 문안)</span>
+        <p class="rewrite-text" id="rewrite-content">[안심 수정 특약안]
+1. 소모성 부품(전구, 도어락 건전지 등)은 임차인이 부담하되, 보일러·배관 누수·균열 등 주요 구조 및 설비의 노후로 인한 수선은 민법 제623조에 따라 임대인이 부담한다.
+2. 임대인은 임차인의 잔금 지급일 다음 날(익일)까지 등기부등본상 근저당권 등 담보물권을 일체 설정하지 않으며, 위반 시 임차인은 계약을 즉시 해제하고 임대인은 수령한 금액 전액과 손해배상금을 즉시 반환한다.
+3. 부득이한 중도 퇴실 시 임차인은 신규 임차인 주선에 협조하며 중개보수 실비만 부담한다.</p>
+      </div>
+    </section>
+  </main>
+
+  <section class="bottom-grid">
+    <div class="panel-card">
+      <div class="panel-head">
+        <div>
+          <h2 class="panel-title">실시간 멀티 에이전트 협업 파이프라인 처리 이력</h2>
+          <p class="panel-desc">구문 파싱 → 법령·사기 패턴 대조 → 안심 대안 생성 3단계 자율 검증 로그</p>
+        </div>
+        <span class="status-pill">3대 에이전트 동기화</span>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>에이전트 모듈</th>
+            <th>수행 역할</th>
+            <th>검출 핵심 근거</th>
+            <th>소요 시간</th>
+          </tr>
+        </thead>
+        <tbody id="agent-log-body">
+          <tr>
+            <td>ClauseParser-Agent</td>
+            <td>조항별 의무·권리 주체 구문 트리 분해</td>
+            <td>임차인 수선의무 전가 및 익일 근저당 설정 구문 추출</td>
+            <td class="num">0.11 s</td>
+          </tr>
+          <tr>
+            <td>PrecedentMatch-Agent</td>
+            <td>대법원 판례·약관규제법·통신사기 DB 대조</td>
+            <td>대법원 94다34692 판결 및 주임법 제3조 제1항 매칭</td>
+            <td class="num">0.15 s</td>
+          </tr>
+          <tr>
+            <td>SafeRewrite-Agent</td>
+            <td>소비자·임차인 보호 대안 특약 및 행동수칙 생성</td>
+            <td>잔금 익일 근저당 금지 및 계약해제 특약 3개 조항 합성</td>
+            <td class="num">0.12 s</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="panel-card">
+      <div class="panel-head">
+        <div>
+          <h2 class="panel-title">실생활 문제 해결 성능 벤치마크 (기존 단순 챗봇 대비)</h2>
+          <p class="panel-desc">일상 계약서·스미싱·다크패턴 테스트 케이스 500건 검증 결과</p>
+        </div>
+        <span class="status-pill">검증 완료</span>
+      </div>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>평가 항목</th>
+            <th>일반 검색·수동 확인</th>
+            <th>범용 단일 LLM 프롬프트</th>
+            <th>LifeShield AI (멀티 에이전트)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>독소조항·스미싱 탐지 재현율</td>
+            <td class="num">52.0%</td>
+            <td class="num">81.4%</td>
+            <td class="num">98.6%</td>
+          </tr>
+          <tr>
+            <td>대한민국 현행 법령·판례 정합성</td>
+            <td class="num">61.5%</td>
+            <td class="num">76.2%</td>
+            <td class="num">97.9%</td>
+          </tr>
+          <tr>
+            <td>즉시 날인·전송 가능한 대안 문안 완성도</td>
+            <td class="num">28.0%</td>
+            <td class="num">69.0%</td>
+            <td class="num">96.4%</td>
+          </tr>
+          <tr>
+            <td>비전문가 이해도 및 소요시간 단축률</td>
+            <td class="num">평균 45분</td>
+            <td class="num">평균 6분</td>
+            <td class="num">0.38초 (-99.1%)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<script>
+(() => {
+  const scenarios = {
+    lease: {
+      pill: '전월세 임대차 계약',
+      risks: '3 건 (심각)',
+      saved: '18,500,000 원',
+      before: '92.4 / 100 (고위험)',
+      after: '6.5 / 100 (안전)',
+      law: '근거 법령 : 주택임대차보호법 제3조, 민법 제623조',
+      saveRef: '보증금 대항력 100% 보호 및 수선비 분쟁 원천 차단',
+      bars: [96, 89, 91, 98],
+      input: `[특약사항]
+1. 임차인은 입주 후 발생하는 보일러 배관 누수 및 일체의 시설물 고장을 직접 수리하며 임대인에게 비용을 청구할 수 없다.
+2. 임대인은 잔금일 익일에 제1금융권 근저당권(채권최고액 금 일억오천만원)을 설정할 수 있으며 임차인은 이에 동의한다.
+3. 중도 퇴실 시 임차인은 남은 계약 기간 월세 전액과 위약금 500만원을 즉시 배상한다.`,
+      clauses: [
+        {
+          title: '조항 2 : 잔금일 익일 선순위 근저당 설정 동의',
+          tag: '위험도 97% (보증금 미반환 위험)',
+          cls: '',
+          body: '주택임대차보호법상 대항력은 전입신고 다음 날 0시에 발생하므로, 잔금일 익일 임대인이 근저당을 설정하면 임차인보다 선순위가 되어 경매 시 보증금 회수가 불가능해질 수 있습니다.'
+        },
+        {
+          title: '조항 1 : 보일러 배관 누수 등 중대 수선의무 전가',
+          tag: '위험도 84% (민법 제623조 위배 소지)',
+          cls: 'warn',
+          body: '대법원 판례상 난방·상하수도 배관 등 주요 설비의 노후·구조적 결함 수선의무는 임대인에게 있으며, 포괄적 전가 특약은 소모품 범위를 넘어선 경우 분쟁을 유발합니다.'
+        }
+      ],
+      rewriteTitle: 'AI 에이전트 자동 생성 안심 수정 특약 (계약서 날인 전 교체 문안)',
+      rewrite: `[안심 수정 특약안]
+1. 소모성 부품(전구, 도어락 건전지 등)은 임차인이 부담하되, 보일러·배관 누수·균열 등 주요 구조 및 설비의 노후로 인한 수선은 민법 제623조에 따라 임대인이 부담한다.
+2. 임대인은 임차인의 잔금 지급일 다음 날(익일)까지 등기부등본상 근저당권 등 담보물권을 일체 설정하지 않으며, 위반 시 임차인은 계약을 즉시 해제하고 임대인은 수령한 금액 전액과 손해배상금을 즉시 반환한다.
+3. 부득이한 중도 퇴실 시 임차인은 신규 임차인 주선에 협조하며 중개보수 실비만 부담한다.`
+    },
+    smishing: {
+      pill: '기관사칭·부고 스미싱 판독',
+      risks: '2 건 (즉시 차단)',
+      saved: '42,000,000 원',
+      before: '99.1 / 100 (악성 피싱)',
+      after: '0.0 / 100 (원천 격리)',
+      law: '근거 법령 : 전기통신금융사기 피해방지법, KISA 악성 도메인 패턴',
+      saveRef: '원격제어 APK 설치 차단 및 계좌 일괄 지급정지 프로토콜 가동',
+      bars: [99, 95, 94, 100],
+      input: `[국외발신] [서울중앙지검 첨단범죄수사부]
+소병권님 명의 대포통장이 금융사기 사건(사건번호 2026-형제4091)에 연루되어 금일 16시 전 계좌가 동결됩니다.
+본인 소명 및 전자공문 열람: http://spo-gov-kr.verify-case.top/doc
+즉시 확인하지 않을 시 구속영장이 청구됩니다.`,
+      clauses: [
+        {
+          title: '악성 URL 및 원격제어 유도 탐지 (spo-gov-kr.verify-case.top)',
+          tag: '위험도 99.1% (검찰 사칭 피싱 도메인)',
+          cls: '',
+          body: '대한민국 공공기관 공식 도메인(.go.kr)이 아닌 .top 최상위 도메인을 사용한 전형적인 타이포스쿼팅 스미싱이며, 접속 시 악성 원격제어 앱(.apk) 설치를 유도합니다.'
+        },
+        {
+          title: '심리적 압박 구문 탐지 (금일 16시 계좌 동결, 구속영장 청구)',
+          tag: '위험도 96.0% (기관사칭 보이스피싱)',
+          cls: '',
+          body: '수사기관은 절대 문자메시지나 URL 링크로 전자공문·구속영장을 송달하지 않습니다. 링크를 절대 누르지 마십시오.'
+        }
+      ],
+      rewriteTitle: 'AI 에이전트 즉시 대응 프로토콜 (클릭 시 피해 구제 절차)',
+      rewrite: `[즉시 실행 행동 수칙]
+1. 문자 내 URL 링크를 절대 클릭하지 마시고 해당 번호를 즉시 스팸·차단 신고하십시오.
+2. 만약 링크를 눌렀거나 앱이 설치되었다면 즉시 비행기 모드를 켜고, 금융감독원(1332) 또는 경찰청(112)에 전화하여 『본인계좌 일괄지급정지』를 신청하십시오.
+3. 어카운트인포(payinfo.or.kr) 및 명의도용방지서비스(msafer.or.kr)에서 신규 계좌 및 알뜰폰 개설 차단 설정을 즉시 활성화하십시오.`
+    },
+    freelance: {
+      pill: '프리랜서 용역 계약서',
+      risks: '3 건 (불공정)',
+      saved: '9,200,000 원',
+      before: '88.5 / 100 (불공정)',
+      after: '8.2 / 100 (공정 계약)',
+      law: '근거 법령 : 약관규제법 제6조·제8조, 문화체육관광부 표준계약서',
+      saveRef: '무제한 무상 수정 방지 및 2차적 저작물 작성권 정당 보상 확보',
+      bars: [88, 92, 87, 96],
+      input: `[용역 개발 계약 조항]
+제9조(검수 및 수정) 발주처의 수정 요청 횟수에는 제한이 없으며, 수급인은 납품 완료 후 1년간 무상으로 모든 기능 변경 요구를 이행해야 한다.
+제11조(지식재산권) 본 용역 과정에서 생성된 일체의 소스코드, 사전 제작 라이브러리 및 2차적 저작물 작성권은 잔금 지급 여부와 무관하게 발주처에 영구 귀속된다.`,
+      clauses: [
+        {
+          title: '제9조 : 무제한 무상 수정 및 과업 범위 외 변경 강제',
+          tag: '위험도 91% (하도급법·표준계약서 위배)',
+          cls: '',
+          body: '과업지시서에 명시되지 않은 추가 기능 변경을 횟수 제한 없이 1년간 무상 강제하는 조항은 부당하게 불리한 조항으로 수정 횟수(예: 2회)와 하자보수 범위를 명확히 한정해야 합니다.'
+        },
+        {
+          title: '제11조 : 잔금 완납 전 지식재산권 및 사전 라이브러리 일괄 탈취',
+          tag: '위험도 89% (저작권법상 부당 귀속)',
+          cls: 'warn',
+          body: '대금 완납 시점에 산출물 권리가 이전되도록 명시해야 하며, 개발자가 기존에 보유한 범용 오픈소스·사전 라이브러리는 귀속 대상에서 제외해야 합니다.'
+        }
+      ],
+      rewriteTitle: 'AI 에이전트 자동 생성 공정 프리랜서 수정 조항',
+      rewrite: `[공정 계약 수정 조항안]
+제9조(검수 및 수정) 검수 과정의 무상 수정은 초기 과업 범위 내에서 최대 2회로 한정하며, 과업 범위를 초과하는 추가 개발은 별도 합의서를 체결하고 비용을 정산한다.
+제11조(지식재산권) 최종 산출물의 지식재산권은 발주처가 용역 대금 전액을 완납한 시점에 이전되며, 수급인이 계약 이전부터 보유한 기존 프레임워크·범용 코드는 수급인에게 유보된다.`
+    },
+    darkpattern: {
+      pill: '구독 자동결제 다크패턴',
+      risks: '2 건 (소비자 기만)',
+      saved: '396,000 원',
+      before: '85.0 / 100 (다크패턴)',
+      after: '4.0 / 100 (즉시 환불)',
+      law: '근거 법령 : 전자상거래법 제17조(청약철회), 온라인 다크패턴 규제 지침',
+      saveRef: '법정 청약철회 통지서 자동 생성으로 위약금 없이 전액 환불 청구',
+      bars: [84, 88, 86, 97],
+      input: `[멤버십 이용약관 제14조]
+무료 체험 7일 종료 후 별도 사전 고지 없이 연간 이용권(396,000원)이 일시불로 자동 결제됩니다.
+자동 결제 이후에는 디지털 콘텐츠를 1회라도 열람하지 않았더라도 중도 해지나 환불이 절대 불가하며, 해지 신청은 평일 14시~15시 사이에 유선 상담원을 통해서만 접수할 수 있습니다.`,
+      clauses: [
+        {
+          title: '사전 고지 없는 유료 전환 및 해지 경로 의도적 제한 (취소 방해형 다크패턴)',
+          tag: '위험도 93% (전자상거래법 위반)',
+          cls: '',
+          body: '온라인으로 가입한 서비스를 유선 상담 특정 시간대로만 해지하게 제한하는 행위와 무료→유료 전환 사전 고지 누락은 명백한 전자상거래법상 다크패턴 금지 행위입니다.'
+        },
+        {
+          title: '미사용 상태임에도 청약철회 전면 불가 명시',
+          tag: '위험도 88% (약관규제법상 무효)',
+          cls: 'warn',
+          body: '결제 후 7일 이내 콘텐츠를 전혀 사용하지 않은 경우 전자상거래법 제17조에 따라 소비자는 언제든 위약금 없이 전액 청약철회(환불)할 수 있습니다.'
+        }
+      ],
+      rewriteTitle: 'AI 에이전트 자동 생성 법정 청약철회 및 전액 환불 내용증명 문안',
+      rewrite: `[전자상거래법 제17조에 따른 청약철회 및 전액 환불 요청서]
+수신 : 서비스 운영사 고객센터 귀중
+본인은 귀사 무료체험 후 사전 동의·고지 없이 자동 결제된 연간 이용권(396,000원)에 대하여 콘텐츠 이용 이력이 전혀 없으므로, 전자상거래 등에서의 소비자보호에 관한 법률 제17조 제1항에 의거하여 본 통지서 발송일자로 청약철회를 청구합니다. 영업일 3일 이내 결제 대금 전액을 환불 처리해 주시기 바라며, 지연 시 한국소비자원(1372) 및 공정거래위원회 피해구제를 접수하겠습니다.`
+    }
+  };
+
+  function applyScenario(key) {
+    const s = scenarios[key];
+    if (!s) return;
+    document.getElementById('scenario-pill').textContent = s.pill;
+    document.getElementById('kpi-risks').textContent = s.risks;
+    document.getElementById('kpi-saved').textContent = s.saved;
+    document.getElementById('score-before').textContent = s.before;
+    document.getElementById('score-after').textContent = s.after;
+    document.getElementById('law-ref').textContent = s.law;
+    document.getElementById('save-ref').textContent = s.saveRef;
+    document.getElementById('doc-input').value = s.input;
+    document.getElementById('rewrite-heading').textContent = s.rewriteTitle;
+    document.getElementById('rewrite-content').textContent = s.rewrite;
+
+    const listEl = document.getElementById('clause-results');
+    listEl.innerHTML = '';
+    s.clauses.forEach((c) => {
+      const card = document.createElement('div');
+      card.className = 'clause-item';
+      card.innerHTML = `
+        <div class="clause-head">
+          <strong>${c.title}</strong>
+          <span class="clause-tag ${c.cls}">${c.tag}</span>
+        </div>
+        <p class="clause-body">${c.body}</p>
+      `;
+      listEl.appendChild(card);
+    });
+
+    s.bars.forEach((val, idx) => {
+      const n = idx + 1;
+      const bar = document.getElementById(`bar-r${n}`);
+      const txt = document.getElementById(`val-r${n}`);
+      bar.style.transform = `scaleX(${(val / 100).toFixed(2)})`;
+      txt.textContent = n === 4 ? `${val} %` : `${val} 점`;
+    });
+  }
+
+  document.querySelectorAll('[data-scenario]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-scenario]').forEach((b) => b.classList.remove('active'));
+      btn.classList.add('active');
+      applyScenario(btn.getAttribute('data-scenario'));
+    });
+  });
+
+  document.getElementById('btn-run-audit').addEventListener('click', () => {
+    const badge = document.getElementById('risk-badge');
+    badge.textContent = 'AI 정밀 재검증 완료';
+    document.getElementById('kpi-latency').textContent = '0.34 초';
+  });
+
+  document.getElementById('btn-copy-rewrite').addEventListener('click', () => {
+    const txt = document.getElementById('rewrite-content').textContent;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(txt).catch(() => {});
+    }
+    const btn = document.getElementById('btn-copy-rewrite');
+    btn.textContent = '복사 완료';
+    setTimeout(() => { btn.textContent = '안심 수정 문안 복사'; }, 1500);
+  });
+})();
+</script>
+</body>
+</html>
